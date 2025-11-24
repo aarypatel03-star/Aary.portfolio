@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aary Patel — Portfolio</title>
+  <meta name="description" content="Aary Patel — Full-Stack & Software Developer. Portfolio showcasing projects, skills and contact." />
+  <style>
+    /* --- Reset / base --- */
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#030307;
+      --glass: rgba(255,255,255,0.06);
+      --accent1:#c7f9ff;
+      --accent2:#ffd6b6;
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.75);
+    }
+    body{
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:var(--white);
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* --- Background (kept from your original; now with gradient overlay) --- */
+    .bg{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      overflow:hidden;
+      pointer-events:none;
+    }
+    .bg::before{
+      content:"";
+      position:absolute;
+      inset:-10%;
+      background-image:url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=2000&q=80');
+      background-size:cover;
+      background-position:center;
+      animation:bgMove 18s linear infinite alternate;
+      filter:brightness(0.78) contrast(1.02);
+      transform-origin:center;
+    }
+    .bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55));
+      mix-blend-mode:overlay;
+    }
+    @keyframes bgMove{ from{transform:scale(1)} to{transform:scale(1.08)} }
+
+    /* --- Layout --- */
+    .page{
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+    .card{
+      width:100%;
+      max-width:1200px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:18px;
+      padding:36px;
+      display:flex;
+      gap:32px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* Left column */
+    .left{
+      flex:1.2;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:18px;
+    }
+    .name{
+      font-size:56px;
+      font-weight:800;
+      line-height:0.95;
+      text-transform:uppercase;
+      background: linear-gradient(90deg,var(--white), var(--accent1), var(--accent2));
+      -webkit-background-clip:text;
+      color:transparent;
+      letter-spacing:1px;
+    }
+    .sub{
+      font-size:18px;
+      color:var(--muted);
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    /* typed effect */
+    .typed{
+      font-weight:700;
+      margin-left:6px;
+      color:var(--white);
+      position:relative;
+    }
+    .typed::after{
+      content:"";
+      display:inline-block;
+      width:2px;
+      height:20px;
+      background:var(--white);
+      margin-left:6px;
+      vertical-align:middle;
+      animation:blink 1s steps(2,start) infinite;
+    }
+    @keyframes blink{ 50%{opacity:0} }
+
+    /* ticker */
+    .ticker-wrap{
+      width:100%;
+      overflow:hidden;
+      margin-top:6px;
+    }
+    .ticker{
+      display:flex;
+      gap:22px;
+      white-space:nowrap;
+      animation:tickerMove 14s linear infinite;
+      font-size:15px;
+      font-weight:700;
+    }
+    .item{
+      padding:6px 14px;
+      background:var(--glass);
+      border-radius:12px;
+      backdrop-filter:blur(4px);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    @keyframes tickerMove{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* Right column - image and quick actions */
+    .right{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      align-items:center;
+      justify-content:center;
+    }
+    .avatar{
+      width:100%;
+      max-width:420px;
+      border-radius:18px;
+      border:2px solid rgba(255,255,255,0.14);
+      box-shadow:0 20px 50px rgba(0,0,0,0.7);
+      overflow:hidden;
+      position:relative;
+    }
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    /* project preview */
+    .actions{
+      width:100%;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .btn{
+      padding:10px 16px;
+      border-radius:10px;
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.12);
+      color:var(--white);
+      cursor:pointer;
+      font-weight:700;
+      text-decoration:none;
+      transition:transform 0.14s ease, background 0.14s ease;
+    }
+    .btn:hover{ transform:translateY(-4px); background: rgba(255,255,255,0.03) }
+
+    .primary{
+      background:linear-gradient(90deg,var(--accent1), var(--accent2));
+      color:#081019;
+      border:none;
+      box-shadow: 0 6px 18px rgba(200,240,255,0.06);
+    }
+
+    /* Skills / chips */
+    .chips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-start;
+      margin-top:8px;
+    }
+    .chip{
+      padding:6px 10px;
+      background:rgba(255,255,255,0.04);
+      border-radius:999px;
+      font-weight:600;
+      font-size:13px;
+    }
+
+    /* Projects section (below hero) */
+    .projects{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:16px;
+      width:100%;
+    }
+    .project-card{
+      padding:14px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .project-title{ font-weight:800; font-size:16px; margin-bottom:8px; }
+    .project-desc{ color:var(--muted); font-size:14px; margin-bottom:10px; }
+    .project-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+    .tag{ font-size:12px; padding:6px 8px; background:rgba(255,255,255,0.03); border-radius:8px; font-weight:700; }
+
+    /* Footer / contact */
+    footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:13px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .socials{ display:flex; gap:10px; align-items:center; }
+    .socials a{ color:var(--muted); text-decoration:none; font-weight:700; font-size:13px; }
+
+    /* Custom cursor (hide on touch) */
+    .cursor,.cursor-f{position:fixed;top:0;left:0;transform:translate(-50%,-50%);pointer-events:none;z-index:9999}
+    .cursor{width:10px;height:10px;background:var(--white);border-radius:50%}
+    .cursor-f{width:36px;height:36px;border-radius:50%;border:1px solid var(--white);opacity:0.22;transition:0.12s}
+    .hide-cursor{display:none !important}
+
+    /* Responsive */
+    @media(max-width:1000px){
+      .card{flex-direction:column; padding:20px}
+      .projects{grid-template-columns:1fr}
+      .name{font-size:40px}
+      .avatar{max-width:340px}
+    }
+    @media (max-width:520px){
+      .name{font-size:28px}
+      .sub{font-size:15px}
+      .typed::after{display:none}
+    }
+
+    /* Accessibility: respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .bg::before, .ticker, .avatar, .btn, .typed::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <!-- Cursor elements -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-f" id="cursorF" aria-hidden="true"></div>
+
+  <main class="page" role="main">
+    <section class="card" aria-labelledby="hero-headline">
+      <!-- LEFT -->
+      <div class="left">
+        <h1 id="hero-headline" class="name">Aary Patel</h1>
+        <div class="sub" aria-label="Role">
+          <span>Full-Stack</span>
+          <span style="opacity:.55">•</span>
+          <span>Software Developer</span>
+          <span class="typed" id="typed">Portfolio &amp; Projects</span>
+        </div>
+
+        <div class="ticker-wrap" aria-hidden="true">
+          <div class="ticker" id="ticker">
+            <span class="item">SOFTWARE DEVELOPER</span>
+            <span class="item">FULL-STACK</span>
+            <span class="item">REACT • NODE</span>
+            <span class="item">PORTFOLIO</span>
+
+            <!-- duplicate for continuous loop -->
+            <span class="item">SOFTWARE DEVELOPER</span>
+            <span class="item">FULL-STACK</span>
+          </div>
+        </div>
+
+        <!-- short bio -->
+        <p style="color:var(--muted); margin-top:6px; max-width:70%;">
+          Hi — I'm Aary. I build web apps, APIs, and nice UI/UX. I love converting ideas into production-ready code.
+          Explore projects, download my CV or contact me below.
+        </p>
+
+        <!-- chips -->
+        <div class="chips" aria-hidden="false">
+          <div class="chip">JavaScript</div>
+          <div class="chip">React</div>
+          <div class="chip">Node.js</div>
+          <div class="chip">Python</div>
+          <div class="chip">SQL &amp; NoSQL</div>
+        </div>
+
+        <!-- projects preview -->
+        <div class="projects" aria-label="Projects">
+          <div class="project-card">
+            <div class="project-title">Student Management System</div>
+            <div class="project-desc">Full stack student management app with CRUD, authentication and dashboard.</div>
+            <div class="project-tags">
+              <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Python</span>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-title">Portfolio Website</div>
+            <div class="project-desc">Responsive portfolio with animated background and custom cursor.</div>
+            <div class="project-tags">
+              <span class="tag">JS</span><span class="tag">Accessibility</span>
+            </div>
+          </div>
+        </div>
+
+        <footer>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <a class="btn primary" href="Aary_Patel_CV.pdf" download aria-label="Download CV">Download CV</a>
+            <a class="btn" href="mailto:your.email@example.com" aria-label="Send email">Contact</a>
+          </div>
+
+          <div class="socials" aria-label="Social links">
+            <!-- Replace hrefs with your profiles -->
+            <a href="#" aria-label="GitHub" title="GitHub">GitHub</a>
+            <a href="#" aria-label="LinkedIn" title="LinkedIn">LinkedIn</a>
+            <a href="#" aria-label="Twitter" title="Twitter">Twitter</a>
+          </div>
+        </footer>
+      </div>
+
+      <!-- RIGHT -->
+      <aside class="right" aria-label="Profile and actions">
+        <div class="avatar" role="img" aria-label="Profile image">
+          <!-- Replace this image with whichever you prefer (enemy image or other). Keep aspect ratio. -->
+          <img src="https://i.ibb.co/3sjz3fm/professional-developer.jpg" alt="Aary Patel — developer" loading="lazy">
+        </div>
+
+        <div class="actions" role="group" aria-label="Quick actions">
+          <a class="btn" href="#projects" onclick="document.getElementById('typed').scrollIntoView({behavior:'smooth'})">View Projects</a>
+          <a class="btn" href="https://github.com/yourusername" target="_blank" rel="noopener">Code</a>
+          <a class="btn" href="#contact" aria-label="Open contact">Let's talk</a>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    /* --- Custom cursor movement --- */
+    const c = document.getElementById("cursor");
+    const f = document.getElementById("cursorF");
+    let x=0,y=0,a=0,b=0;
+
+    // hide cursor on touch devices to avoid performance issues
+    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    if(isTouch){
+      c.classList.add('hide-cursor');
+      f.classList.add('hide-cursor');
+    } else {
+      document.addEventListener("mousemove", e => {
+        x = e.clientX; y = e.clientY;
+        c.style.left = x + "px"; c.style.top = y + "px";
+      });
+      function animate(){
+        a += (x - a) * 0.12;
+        b += (y - b) * 0.12;
+        f.style.left = a + "px";
+        f.style.top = b + "px";
+        requestAnimationFrame(animate);
+      }
+      animate();
+      // scale cursor when hovering interactive elements
+      const interactive = Array.from(document.querySelectorAll('a, button, .btn'));
+      interactive.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          f.style.transform = "translate(-50%,-50%) scale(1.6)";
+          f.style.opacity = "0.35";
+        });
+        el.addEventListener('mouseleave', () => {
+          f.style.transform = "translate(-50%,-50%) scale(1)";
+          f.style.opacity = "0.22";
+        });
+      });
+    }
+
+    /* --- simple typed text cycle for .typed --- */
+    (function(){
+      const words = ["Portfolio & Projects", "UI / Frontend", "APIs & Backend", "Open Source"];
+      const el = document.getElementById('typed');
+      let i=0, j=0, deleting=false;
+      function tick(){
+        const full = words[i];
+        if(!deleting){
+          el.textContent = full.slice(0, j+1);
+          j++;
+          if(j === full.length){ deleting=true; setTimeout(tick, 1200); return;}
+        } else {
+          el.textContent = full.slice(0, j-1);
+          j--;
+          if(j===0){ deleting=false; i=(i+1)%words.length;}
+        }
+        setTimeout(tick, deleting ? 40 : 70);
+      }
+      tick();
+    })();
+
+    /* --- Make ticker responsive: pause on hover for accessibility --- */
+    const ticker = document.getElementById('ticker');
+    ticker.addEventListener('mouseenter', ()=> ticker.style.animationPlayState = 'paused');
+    ticker.addEventListener('mouseleave', ()=> ticker.style.animationPlayState = 'running');
+
+    /* --- Smooth link behavior (progressive enhancement) --- */
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const tgt = document.querySelector(a.getAttribute('href')) || document.body;
+        tgt.scrollIntoView({behavior:'smooth'});
+      });
+    });
+  </script>
+</body>
+</html>
